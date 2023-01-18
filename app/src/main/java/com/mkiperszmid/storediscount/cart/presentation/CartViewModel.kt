@@ -26,10 +26,28 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             state = state.copy(isLoading = true)
             val cartItems = repository.getCart()
-            val promotionDiscount = promotionDiscount(cartItems)
+            calculatePrice(cartItems)
+            val promotionDiscount = promotionDiscount(state.originalPrice, cartItems)
             val bulkDiscount = bulkDiscount(cartItems)
-            state = state.copy(isLoading = false, items = cartItems)
+            val discount = bulkDiscount + promotionDiscount
+            state = state.copy(
+                isLoading = false,
+                items = cartItems,
+                discount = discount,
+                totalPrice = state.originalPrice - discount
+            )
         }
+    }
+
+    private fun calculatePrice(items: List<CartItem>) {
+        var price = 0.0
+        items.forEach {
+            price += it.amount * it.item.price
+        }
+
+        state = state.copy(
+            originalPrice = price
+        )
     }
 
     fun onAddItem(item: CartItem) {
