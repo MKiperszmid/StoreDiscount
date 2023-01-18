@@ -38,4 +38,16 @@ class ProductRepositoryImpl(
         )
         dao.addItem(cartItem.toEntity())
     }
+
+    override suspend fun minusItemToCart(item: ProductItem) {
+        // TODO: See if there's a better way
+        val code = item.code.name
+        val currentAmount = dao.getItemCount(code) ?: 0
+        val newAmount = currentAmount - 1
+        val cartItem = CartItem(
+            item = item,
+            amount = newAmount
+        )
+        dao.addItem(cartItem.toEntity())
+    }
 }

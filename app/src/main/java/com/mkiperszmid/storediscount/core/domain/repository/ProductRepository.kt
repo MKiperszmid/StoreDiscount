@@ -8,4 +8,5 @@ interface ProductRepository {
     suspend fun getCart(): List<CartItem> // TODO: Separate in 2 repositories, Cart and Home
 
     suspend fun addItemToCart(item: ProductItem)
+    suspend fun minusItemToCart(item: ProductItem)
 }
