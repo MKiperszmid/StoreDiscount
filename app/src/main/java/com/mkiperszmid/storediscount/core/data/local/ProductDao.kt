@@ -2,6 +2,7 @@ package com.mkiperszmid.storediscount.core.data.local
 
 import androidx.room.*
 import com.mkiperszmid.storediscount.core.data.local.entity.ProductItemEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
@@ -11,7 +12,7 @@ interface ProductDao {
     // adding new items to the DB
 
     @Query("SELECT * FROM ProductItemEntity WHERE amount > 0")
-    suspend fun getCart(): List<ProductItemEntity>
+    fun getCart(): Flow<List<ProductItemEntity>>
 
     @Query("SELECT amount FROM ProductItemEntity where code == :code")
     suspend fun getItemCount(code: String): Int?

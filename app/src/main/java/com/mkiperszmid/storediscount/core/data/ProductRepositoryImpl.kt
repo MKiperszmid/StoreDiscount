@@ -7,6 +7,9 @@ import com.mkiperszmid.storediscount.core.data.remote.ProductApi
 import com.mkiperszmid.storediscount.core.domain.model.CartItem
 import com.mkiperszmid.storediscount.core.domain.model.ProductItem
 import com.mkiperszmid.storediscount.core.domain.repository.ProductRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class ProductRepositoryImpl(
     private val api: ProductApi,
@@ -22,9 +25,14 @@ class ProductRepositoryImpl(
         }
     }
 
-    override suspend fun getCart(): List<CartItem> {
+    override fun getCart(): Flow<List<CartItem>> {
         val cart = dao.getCart()
-        return cart.map { it.toDomain() }
+        return cart.map { cartEntity -> cartEntity.map { it.toDomain() } }
+        /*return flow {
+            dao.getCart().collect { entities ->
+                emit(entities.map { it.toDomain() })
+            }
+        }*/
     }
 
     override suspend fun addItemToCart(item: ProductItem) {

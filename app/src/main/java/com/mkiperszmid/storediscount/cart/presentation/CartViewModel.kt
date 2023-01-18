@@ -10,6 +10,8 @@ import com.mkiperszmid.storediscount.cart.domain.usecase.PromotionDiscount
 import com.mkiperszmid.storediscount.core.domain.model.CartItem
 import com.mkiperszmid.storediscount.core.domain.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,17 +27,21 @@ class CartViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             state = state.copy(isLoading = true)
-            val cartItems = repository.getCart()
-            calculatePrice(cartItems)
-            val promotionDiscount = promotionDiscount(state.originalPrice, cartItems)
-            val bulkDiscount = bulkDiscount(cartItems)
-            val discount = bulkDiscount + promotionDiscount
-            state = state.copy(
-                isLoading = false,
-                items = cartItems,
-                discount = discount,
-                totalPrice = state.originalPrice - discount
-            )
+            repository.getCart().collectLatest {
+                val sorted = it.sortedBy { cartItem -> cartItem.item.code }
+                state = state.copy(
+                    items = sorted,
+                    isLoading = false
+                )
+                calculatePrice(it)
+                val promotionDiscount = promotionDiscount(it)
+                val bulkDiscount = bulkDiscount(it)
+                val discount = bulkDiscount + promotionDiscount
+                state = state.copy(
+                    discount = discount,
+                    totalPrice = state.originalPrice - discount
+                )
+            }
         }
     }
 
