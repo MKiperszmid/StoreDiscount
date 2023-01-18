@@ -1,9 +1,6 @@
 package com.mkiperszmid.storediscount.core.data.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.mkiperszmid.storediscount.core.data.local.entity.ProductItemEntity
 
 @Dao
@@ -18,4 +15,7 @@ interface ProductDao {
 
     @Query("SELECT amount FROM ProductItemEntity where code == :code")
     suspend fun getItemCount(code: String): Int?
+
+    @Delete
+    suspend fun removeItem(item: ProductItemEntity)
 }
