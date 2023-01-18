@@ -1,5 +1,6 @@
 package com.mkiperszmid.storediscount.cart.di
 
+import com.mkiperszmid.storediscount.cart.domain.usecase.BulkDiscount
 import com.mkiperszmid.storediscount.cart.domain.usecase.PromotionDiscount
 import dagger.Module
 import dagger.Provides
@@ -10,6 +11,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object CartModule {
+
+    @Singleton
+    @Provides
+    fun provideBulkDiscount(): BulkDiscount {
+        return BulkDiscount()
+    }
 
     @Singleton
     @Provides

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mkiperszmid.storediscount.cart.domain.usecase.BulkDiscount
 import com.mkiperszmid.storediscount.cart.domain.usecase.PromotionDiscount
 import com.mkiperszmid.storediscount.core.domain.model.CartItem
 import com.mkiperszmid.storediscount.core.domain.repository.ProductRepository
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val repository: ProductRepository,
-    private val promotionDiscount: PromotionDiscount
+    private val promotionDiscount: PromotionDiscount,
+    private val bulkDiscount: BulkDiscount
 ) : ViewModel() {
     var state by mutableStateOf(CartState())
         private set
@@ -24,7 +26,8 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             state = state.copy(isLoading = true)
             val cartItems = repository.getCart()
-            val totalPrice = promotionDiscount(cartItems)
+            val promotionDiscount = promotionDiscount(cartItems)
+            val bulkDiscount = bulkDiscount(cartItems)
             state = state.copy(isLoading = false, items = cartItems)
         }
     }
