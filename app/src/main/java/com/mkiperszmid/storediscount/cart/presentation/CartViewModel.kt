@@ -43,7 +43,7 @@ class CartViewModel @Inject constructor(
 
     fun onAddItem(item: CartItem) {
         viewModelScope.launch {
-            repository.addItemToCart(item.item)
+            repository.addItemToCart(item.item) // TODO: Technically speaking, since we are usinhg usecases, we can also move both of these (add + minus) to usecases
         }
     }
 

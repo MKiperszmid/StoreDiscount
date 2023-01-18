@@ -8,8 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addItem(item: ProductItemEntity)
-    // TODO: We can have ProductItemEntity have a "amount" parameter, and just increase/decrease that number instead of
-    // adding new items to the DB
 
     @Query("SELECT * FROM ProductItemEntity WHERE amount > 0")
     fun getCart(): Flow<List<ProductItemEntity>>
