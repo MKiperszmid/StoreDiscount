@@ -1,7 +1,6 @@
 package com.mkiperszmid.storediscount.cart.di
 
-import com.mkiperszmid.storediscount.cart.domain.usecase.BulkDiscount
-import com.mkiperszmid.storediscount.cart.domain.usecase.PromotionDiscount
+import com.mkiperszmid.storediscount.cart.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,13 +13,13 @@ object CartModule {
 
     @Singleton
     @Provides
-    fun provideBulkDiscount(): BulkDiscount {
-        return BulkDiscount()
-    }
-
-    @Singleton
-    @Provides
-    fun providePromotionDiscount(): PromotionDiscount {
-        return PromotionDiscount()
+    fun provideCartUseCases(): CartUseCases {
+        return CartUseCases(
+            calculateDiscounts = CalculateDiscounts(
+                bulkDiscount = BulkDiscount(),
+                promotionDiscount = PromotionDiscount()
+            ),
+            calculatePrice = CalculatePrice()
+        )
     }
 }

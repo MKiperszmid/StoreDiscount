@@ -5,21 +5,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mkiperszmid.storediscount.cart.domain.usecase.BulkDiscount
-import com.mkiperszmid.storediscount.cart.domain.usecase.PromotionDiscount
+import com.mkiperszmid.storediscount.cart.domain.usecase.CartUseCases
 import com.mkiperszmid.storediscount.core.domain.model.CartItem
 import com.mkiperszmid.storediscount.core.domain.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val repository: ProductRepository,
-    private val promotionDiscount: PromotionDiscount,
-    private val bulkDiscount: BulkDiscount
+    private val cartUseCases: CartUseCases
 ) : ViewModel() {
     var state by mutableStateOf(CartState())
         private set
@@ -33,27 +30,15 @@ class CartViewModel @Inject constructor(
                     items = sorted,
                     isLoading = false
                 )
-                calculatePrice(it)
-                val promotionDiscount = promotionDiscount(it)
-                val bulkDiscount = bulkDiscount(it)
-                val discount = bulkDiscount + promotionDiscount
+                val originalPrice = cartUseCases.calculatePrice(it)
+                val discount = cartUseCases.calculateDiscounts(it)
                 state = state.copy(
+                    originalPrice = originalPrice,
                     discount = discount,
-                    totalPrice = state.originalPrice - discount
+                    totalPrice = originalPrice - discount
                 )
             }
         }
-    }
-
-    private fun calculatePrice(items: List<CartItem>) {
-        var price = 0.0
-        items.forEach {
-            price += it.amount * it.item.price
-        }
-
-        state = state.copy(
-            originalPrice = price
-        )
     }
 
     fun onAddItem(item: CartItem) {
