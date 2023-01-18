@@ -13,7 +13,7 @@ interface ProductDao {
     // TODO: We can have ProductItemEntity have a "amount" parameter, and just increase/decrease that number instead of
     // adding new items to the DB
 
-    @Query("SELECT * FROM ProductItemEntity")
+    @Query("SELECT * FROM ProductItemEntity WHERE amount > 0")
     suspend fun getCart(): List<ProductItemEntity>
 
     @Query("SELECT amount FROM ProductItemEntity where code == :code")
