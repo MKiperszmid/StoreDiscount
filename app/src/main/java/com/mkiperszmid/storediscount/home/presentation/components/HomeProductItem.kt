@@ -1,6 +1,7 @@
 package com.mkiperszmid.storediscount.home.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,10 +17,13 @@ import androidx.compose.ui.unit.dp
 fun HomeProductItem(
     title: String,
     price: Double,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().background(Color.LightGray).padding(16.dp),
+        modifier = modifier.fillMaxWidth().background(Color.LightGray).clickable {
+            onClick()
+        }.padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = title)
@@ -30,5 +34,5 @@ fun HomeProductItem(
 @Preview
 @Composable
 fun HomeProductItemPreview() {
-    HomeProductItem(title = "Coffee Mug", price = 7.5)
+    HomeProductItem(title = "Coffee Mug", price = 7.5, onClick = {})
 }

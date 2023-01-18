@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mkiperszmid.storediscount.core.domain.model.ProductItem
 import com.mkiperszmid.storediscount.core.domain.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,6 +21,12 @@ class HomeViewModel @Inject constructor(
 
     init {
         getProducts()
+    }
+
+    fun onItemClick(productItem: ProductItem) {
+        viewModelScope.launch {
+            repository.addItemToCart(productItem)
+        }
     }
 
     private fun getProducts() {

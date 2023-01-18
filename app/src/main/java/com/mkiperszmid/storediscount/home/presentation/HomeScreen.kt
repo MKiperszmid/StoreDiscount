@@ -1,8 +1,6 @@
 package com.mkiperszmid.storediscount.home.presentation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
@@ -11,11 +9,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mkiperszmid.storediscount.core.presentation.StoreButton
 import com.mkiperszmid.storediscount.home.presentation.components.HomeProductItem
 
 @Composable
 fun HomeScreen(
-    viewmodel: HomeViewModel = hiltViewModel()
+    viewmodel: HomeViewModel = hiltViewModel(),
+    onCartClick: () -> Unit
 ) {
     val state = viewmodel.state
 
@@ -26,14 +26,24 @@ fun HomeScreen(
     }
 
     if (state.products.isNotEmpty()) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.products) {
-                HomeProductItem(
-                    title = it.name,
-                    price = it.price,
-                    modifier = Modifier.padding(16.dp)
-                )
+        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                items(state.products) {
+                    HomeProductItem(
+                        title = it.name,
+                        price = it.price,
+                        modifier = Modifier.padding(16.dp),
+                        onClick = {
+                            viewmodel.onItemClick(it)
+                        }
+                    )
+                }
             }
+            StoreButton(
+                text = "Go to Cart",
+                onClick = onCartClick,
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+            )
         }
         // TODO: Handle error cases
     }

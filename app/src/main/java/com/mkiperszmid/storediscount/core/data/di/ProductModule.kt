@@ -1,6 +1,11 @@
 package com.mkiperszmid.storediscount.core.data.di
 
+import android.app.Application
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.mkiperszmid.storediscount.core.data.ProductRepositoryImpl
+import com.mkiperszmid.storediscount.core.data.local.ProductDao
+import com.mkiperszmid.storediscount.core.data.local.StoreDatabase
 import com.mkiperszmid.storediscount.core.data.remote.ProductApi
 import com.mkiperszmid.storediscount.core.domain.repository.ProductRepository
 import dagger.Module
@@ -27,7 +32,18 @@ object ProductModule {
 
     @Provides
     @Singleton
-    fun provideRepository(api: ProductApi): ProductRepository {
-        return ProductRepositoryImpl(api = api)
+    fun provideDao(application: Application): ProductDao {
+        val db = Room.databaseBuilder(
+            application,
+            StoreDatabase::class.java,
+            "cart_db"
+        ).build()
+        return db.dao
+    }
+
+    @Provides
+    @Singleton
+    fun provideRepository(api: ProductApi, dao: ProductDao): ProductRepository {
+        return ProductRepositoryImpl(api = api, dao = dao)
     }
 }
