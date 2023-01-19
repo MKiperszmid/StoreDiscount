@@ -37,7 +37,10 @@ fun CartScreen(
                 fontSize = 20.sp,
                 modifier = Modifier.padding(16.dp)
             )
-            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(32.dp)
+            ) {
                 items(state.items) {
                     CartProductItem(
                         cartItem = it,
