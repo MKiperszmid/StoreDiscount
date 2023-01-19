@@ -50,7 +50,6 @@ android {
 }
 
 dependencies {
-
     // Core
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.activity:activity-compose:1.6.1'
@@ -63,7 +62,6 @@ dependencies {
 
     // Lifecycle
     def lifecycle_version = "2.5.1"
-
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
 
@@ -83,9 +81,6 @@ dependencies {
     def hilt_compiler_version = "1.0.0"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_compiler_version"
     kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
-
-    // Coil
-    implementation("io.coil-kt:coil-compose:2.2.2")
 
     // Room
     def room_version = "2.5.0"

@@ -11,7 +11,7 @@ class BulkDiscount {
 
     operator fun invoke(items: List<CartItem>): Double {
         val shirts = items.firstOrNull { it.item.code == ProductCode.TSHIRT } ?: return 0.0
-        if (shirts.amount < 3) return 0.0
+        if (shirts.amount < MINIMUM_AMOUNT) return 0.0
         return (shirts.item.price - DISCOUNT_PRICE) * shirts.amount
     }
 }
