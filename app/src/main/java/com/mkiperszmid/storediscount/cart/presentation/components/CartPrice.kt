@@ -22,7 +22,7 @@ fun CartPrice(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = "$title: ", fontSize = 16.sp)
-        Text(text = String.format("%.2f", price), fontSize = 24.sp)
+        Text(text = String.format("$%.2f", price), fontSize = 24.sp)
     }
 }
 

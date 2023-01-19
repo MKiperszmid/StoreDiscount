@@ -31,7 +31,7 @@ fun CartProductItem(
     ) {
         Column {
             Text(text = cartItem.item.name)
-            Text(text = String.format("%.2f", cartItem.item.price), fontWeight = FontWeight.Bold)
+            Text(text = String.format("$%.2f", cartItem.item.price), fontWeight = FontWeight.Bold)
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column {

@@ -28,7 +28,7 @@ fun HomeProductItem(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = title)
-        Text(text = String.format("%.2f", price), fontWeight = FontWeight.Bold)
+        Text(text = String.format("$%.2f", price), fontWeight = FontWeight.Bold)
     }
 }
 
