@@ -2,7 +2,6 @@ package com.mkiperszmid.storediscount.core.data.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.mkiperszmid.storediscount.core.data.ProductRepositoryImpl
 import com.mkiperszmid.storediscount.core.data.local.ProductDao
 import com.mkiperszmid.storediscount.core.data.local.StoreDatabase

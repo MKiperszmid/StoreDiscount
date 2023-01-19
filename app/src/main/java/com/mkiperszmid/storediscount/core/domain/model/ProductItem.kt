@@ -1,6 +1,5 @@
 package com.mkiperszmid.storediscount.core.domain.model
 
-import androidx.annotation.DrawableRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AirplaneTicket
 import androidx.compose.material.icons.outlined.Checkroom
