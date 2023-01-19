@@ -26,8 +26,9 @@ class MainActivity : ComponentActivity() {
                 BackdropScaffold(
                     appBar = { },
                     backLayerContent = { },
-                    peekHeight = 1.dp,
+                    peekHeight = 0.dp,
                     gesturesEnabled = false,
+                    stickyFrontLayer = false,
                     frontLayerContent = {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
