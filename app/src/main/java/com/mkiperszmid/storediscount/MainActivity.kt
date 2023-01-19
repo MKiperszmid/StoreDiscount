@@ -27,6 +27,7 @@ class MainActivity : ComponentActivity() {
                     appBar = { },
                     backLayerContent = { },
                     peekHeight = 1.dp,
+                    gesturesEnabled = false,
                     frontLayerContent = {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
