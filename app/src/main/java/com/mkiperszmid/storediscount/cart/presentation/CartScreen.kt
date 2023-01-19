@@ -4,11 +4,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mkiperszmid.storediscount.cart.presentation.components.CartPrice
 import com.mkiperszmid.storediscount.cart.presentation.components.CartProductItem
 
 @Composable
@@ -23,7 +27,16 @@ fun CartScreen(
     }
 
     if (state.items.isNotEmpty()) {
-        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Cart",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(16.dp)
+            )
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(state.items) {
                     CartProductItem(
@@ -38,33 +51,15 @@ fun CartScreen(
                 }
             }
             Column(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(text = "Discount: ")
-                    Text(text = "$${state.discount}")
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(text = "Original Price: ")
-                    Text(text = "$${state.originalPrice}")
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(text = "Total: ")
-                    Text(text = "$${state.totalPrice}")
-                }
+                Divider(modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp))
+                CartPrice(title = "Original Price", price = state.originalPrice)
+                CartPrice(title = "Discount", price = state.discount)
+                CartPrice(title = "Total", price = state.totalPrice)
             }
         }
+    } else {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(text = "Your cart looks empty!")
+        }
     }
-
-    // TODO: Handle empty state items
 }

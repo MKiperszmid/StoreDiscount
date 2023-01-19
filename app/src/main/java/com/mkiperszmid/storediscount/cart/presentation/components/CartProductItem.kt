@@ -1,16 +1,21 @@
 package com.mkiperszmid.storediscount.cart.presentation.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mkiperszmid.storediscount.core.domain.model.CartItem
 import com.mkiperszmid.storediscount.core.domain.model.ProductCode
 import com.mkiperszmid.storediscount.core.domain.model.ProductItem
-import com.mkiperszmid.storediscount.core.presentation.StoreButton
 
 @Composable
 fun CartProductItem(
@@ -26,12 +31,16 @@ fun CartProductItem(
     ) {
         Column {
             Text(text = cartItem.item.name)
-            Text(text = "$${cartItem.item.price}")
+            Text(text = "$${cartItem.item.price}", fontWeight = FontWeight.Bold)
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column {
-                StoreButton(text = "+", onClick = onAddItem)
-                StoreButton(text = "-", onClick = onMinusItem)
+                IconButton(onClick = onAddItem) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                }
+                IconButton(onClick = onMinusItem) {
+                    Icon(imageVector = Icons.Default.Remove, contentDescription = "Remove")
+                }
             }
             Text(text = "x${cartItem.amount}")
         }
