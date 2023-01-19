@@ -1,12 +1,7 @@
 package com.mkiperszmid.storediscount.cart.presentation.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Remove
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,17 +28,11 @@ fun CartProductItem(
             Text(text = cartItem.item.name)
             Text(text = String.format("$%.2f", cartItem.item.price), fontWeight = FontWeight.Bold)
         }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Column {
-                IconButton(onClick = onAddItem) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
-                }
-                IconButton(onClick = onMinusItem) {
-                    Icon(imageVector = Icons.Default.Remove, contentDescription = "Remove")
-                }
-            }
-            Text(text = "x${cartItem.amount}")
-        }
+        CartItemIncrease(
+            amount = cartItem.amount,
+            onAddClick = onAddItem,
+            onMinusClick = onMinusItem
+        )
     }
 }
 
