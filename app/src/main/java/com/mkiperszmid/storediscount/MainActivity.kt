@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -17,27 +17,35 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             StoreDiscountTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "home") {
-                        composable("home") {
-                            HomeScreen() {
-                                navController.navigate("cart")
+                val navController = rememberNavController()
+                BackdropScaffold(
+                    appBar = { },
+                    backLayerContent = { },
+                    peekHeight = 1.dp,
+                    frontLayerContent = {
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colors.background
+                        ) {
+                            NavHost(navController = navController, startDestination = "home") {
+                                composable("home") {
+                                    HomeScreen() {
+                                        navController.navigate("cart")
+                                    }
+                                }
+
+                                composable("cart") {
+                                    CartScreen()
+                                }
                             }
                         }
-
-                        composable("cart") {
-                            CartScreen()
-                        }
                     }
-                }
+                )
             }
         }
     }

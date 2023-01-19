@@ -22,7 +22,7 @@ fun CartItemIncrease(
         IconButton(onClick = onMinusClick) {
             Icon(imageVector = Icons.Default.Remove, contentDescription = "Remove")
         }
-        Text(text = "${amount}")
+        Text(text = "$amount")
         IconButton(onClick = onAddClick) {
             Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
         }
